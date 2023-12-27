@@ -1,26 +1,18 @@
 type RatingProps = {
-  stars: number;
+  rate: number;
 };
 
-const Rating = ({ stars }: RatingProps) => {
-  const starsDiv = [];
-  const MAX_STARS = 5;
+const Rating = ({ rate }: RatingProps) => {
+  if (rate > 5) rate = 5;
+  if (rate < 0) rate = 0;
 
-  for (let i = 0; i < stars; i++) {
-    starsDiv.push(<div key={i}>😀</div>);
-  }
-
-  for (let i = 0; i < MAX_STARS - Math.ceil(stars); i++) {
-    starsDiv.push(<div key={"bad" + i}>😒</div>);
-  }
+  const rateInt = Math.floor(rate);
+  const stars = "🌕".repeat(rateInt) + "🌑".repeat(5 - rateInt);
 
   return (
-    <div className="flex flex-row gap-2">
-      {stars < 0 || stars > 6 ? (
-        <div>Incorrect number of stars</div>
-      ) : (
-        starsDiv.map((starDiv) => starDiv)
-      )}
+    <div className="flex items-center text-6xl">
+      <div className="bg-gray-700 p-2 rounded">{rate.toFixed(1)}</div>
+      <div className="ml-3">{stars}</div>
     </div>
   );
 };
